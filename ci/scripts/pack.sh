@@ -21,18 +21,6 @@ set -eux
 
 source_dir=${1}
 
-# Python and PyArrow are required for C Data Interface tests.
-if [ -z "${PYTHON:-}" ]; then
-  if type python3 >/dev/null 2>&1; then
-    export PYTHON=python3
-  else
-    export PYTHON=python
-  fi
-fi
-${PYTHON} -m pip install pyarrow find-libpython
-PYTHONNET_PYDLL=$(${PYTHON} -m find_libpython)
-export PYTHONNET_PYDLL
-
 pushd "${source_dir}"
-dotnet test
+dotnet pack -c Release
 popd
